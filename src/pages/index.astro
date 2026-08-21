@@ -1,0 +1,39 @@
+---
+import PostList from '../components/PostList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getPublishedPosts } from '../lib/posts';
+import { withBase } from '../lib/paths';
+
+const posts = (await getPublishedPosts()).slice(0, 6);
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="hero">
+		<h1>用 Markdown 写，在很多地方读</h1>
+		<p class="lede">
+			这是一个知识分享博客：你只需要在 <code>posts/</code> 里写 Markdown 技术文档。同一份源文件可以在网站、GitHub、RSS 阅读器和本地编辑器里阅读。
+		</p>
+	</section>
+
+	<div class="grid-3">
+		<section class="card">
+			<h2>怎么写</h2>
+			<p>复制 <code>posts/_template.md</code>，填标题、摘要和标签，用普通 Markdown 写正文。</p>
+		</section>
+		<section class="card">
+			<h2>在哪读</h2>
+			<p>网页适合手机和电脑；GitHub 可直接看源文件；RSS 可订阅到阅读器。</p>
+		</section>
+		<section class="card">
+			<h2>怎么发布</h2>
+			<p>把 Markdown 提交进仓库。合并到 <code>master</code> 后，GitHub Pages 会自动生成网站。</p>
+		</section>
+	</div>
+
+	<h2>最近的笔记</h2>
+	<PostList posts={posts} />
+	<p>
+		<a href={withBase('posts/')}>查看全部文章</a>
+	</p>
+</BaseLayout>
