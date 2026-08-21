@@ -6,12 +6,12 @@ import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import { remarkMarkdownLinks } from './src/lib/remark-markdown-links.js';
 
-const base = '/Blog';
+const base = process.env.ASTRO_BASE || '/Blog';
 const markdownLinks = [[remarkMarkdownLinks, { base }]];
 
 // GitHub Pages: https://mmgren.github.io/Blog/
 export default defineConfig({
-	site: 'https://mmgren.github.io',
+	site: process.env.ASTRO_SITE || 'https://mmgren.github.io',
 	base,
 	trailingSlash: 'always',
 	integrations: [mdx(), sitemap()],

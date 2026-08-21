@@ -2,6 +2,8 @@
 
 用 Markdown 写技术文档，在网站、GitHub 和 RSS 阅读器里阅读。
 
+**现在就可以打开：** [https://fuzzy-magpie-732.harvis.page](https://fuzzy-magpie-732.harvis.page)
+
 ## 快速开始
 
 ```bash
