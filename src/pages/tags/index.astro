@@ -1,0 +1,16 @@
+---
+import TagList from '../../components/TagList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, uniqueTags } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+const tags = uniqueTags(posts);
+---
+
+<BaseLayout title="标签" description="按主题浏览知识笔记。">
+	<section class="hero">
+		<h1>标签</h1>
+		<p class="lede">用标签给技术文档分类，方便以后按主题回看。</p>
+	</section>
+	<TagList tags={tags} />
+</BaseLayout>

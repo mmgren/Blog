@@ -1,0 +1,61 @@
+---
+import type { MarkdownHeading } from 'astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+import { githubSourceUrl } from '../lib/paths';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	tags: string[];
+	headings: MarkdownHeading[];
+	postId: string;
+	filePath?: string;
+}
+
+const { title, description, pubDate, updatedDate, tags, headings, postId, filePath } = Astro.props;
+const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+const sourceUrl = githubSourceUrl(postId, filePath);
+---
+
+<BaseLayout title={title} description={description}>
+	<article class="article-wrap">
+		<div class="prose">
+			<div class="meta">
+				<FormattedDate date={pubDate} />
+				{
+					updatedDate && (
+						<span>
+							更新于 <FormattedDate date={updatedDate} />
+						</span>
+					)
+				}
+			</div>
+			<h1>{title}</h1>
+			<p>{description}</p>
+			<TagList tags={tags} />
+			<hr />
+			<slot />
+			<p>
+				<a href={sourceUrl}>在 GitHub 阅读 Markdown 源文件</a>
+			</p>
+		</div>
+		{
+			toc.length > 0 && (
+				<nav class="toc" aria-label="文章目录">
+					<p>目录</p>
+					<ul>
+						{toc.map((heading) => (
+							<li class={`depth-${heading.depth}`}>
+								<a href={`#${heading.slug}`}>{heading.text}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+	</article>
+</BaseLayout>

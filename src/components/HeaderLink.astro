@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'> & { compactHide?: boolean };
+
+const { href, class: className, compactHide, ...props } = Astro.props;
+const current = Astro.url.pathname;
+const target = href ? new URL(href, Astro.url).pathname : '';
+const home = import.meta.env.BASE_URL;
+const isActive =
+	current === target || (target !== home && target !== '' && current.startsWith(target));
+---
+
+<a
+	href={href}
+	class:list={[className, { active: isActive }]}
+	data-compact-hide={compactHide ? '' : undefined}
+	{...props}
+>
+	<slot />
+</a>

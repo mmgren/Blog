@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { GITHUB_REPO } from '../consts';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout title="关于" description="这个知识分享博客如何写作，以及可以在哪些地方阅读。">
+	<section class="hero">
+		<h1>关于</h1>
+		<p class="lede">一份 Markdown，多处阅读。适合随手记录、整理和分享技术文档。</p>
+	</section>
+
+	<div class="prose">
+		<h2>写作方式</h2>
+		<p>
+			所有正式内容都放在仓库根目录的 <code>posts/</code> 里。你可以用 VS Code、Cursor、Obsidian 或任意文本编辑器写 Markdown，不必打开后台或数据库。
+		</p>
+		<p>
+			新文章可以先复制 <code>posts/_template.md</code>。文件名会变成网址，例如 <code>git-notes.md</code> 会发布为 <code>/posts/git-notes/</code>。
+		</p>
+
+		<h2>可以在哪里阅读</h2>
+		<ul>
+			<li>网站：适合手机、电脑浏览器，有目录、标签、搜索和深色模式。</li>
+			<li>
+				<a href={GITHUB_REPO}>GitHub</a>：直接打开 <code>posts/</code> 就能读源文件，也方便评论和分享链接。
+			</li>
+			<li>
+				<a href={withBase('rss.xml')}>RSS</a>：订阅后可在任何 RSS 阅读器里看更新。
+			</li>
+			<li>本地：把仓库当作笔记目录，离线也能写和读。</li>
+		</ul>
+
+		<h2>发布流程</h2>
+		<ol>
+			<li>在 <code>posts/</code> 新增或修改 Markdown。</li>
+			<li>提交并推送到 GitHub。</li>
+			<li>合并到 <code>master</code> 后，GitHub Actions 会构建静态网站并发布到 GitHub Pages。</li>
+		</ol>
+	</div>
+</BaseLayout>

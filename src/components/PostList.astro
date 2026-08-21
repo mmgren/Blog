@@ -1,0 +1,36 @@
+---
+import type { Post } from '../lib/posts';
+import { withBase } from '../lib/paths';
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+	posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="post-list">
+	{
+		posts.length === 0 ? (
+			<p class="empty">还没有已发布的文章。</p>
+		) : (
+			posts.map((post) => (
+				<article
+					class="post-card"
+					data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`}
+				>
+					<div class="meta">
+						<FormattedDate date={post.data.pubDate} />
+						<TagList tags={post.data.tags} />
+					</div>
+					<h2>
+						<a href={withBase(`posts/${post.id}/`)}>{post.data.title}</a>
+					</h2>
+					<p>{post.data.description}</p>
+				</article>
+			))
+		)
+	}
+</div>

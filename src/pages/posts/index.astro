@@ -1,0 +1,31 @@
+---
+import PostList from '../../components/PostList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_DESCRIPTION } from '../../consts';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="文章" description={SITE_DESCRIPTION}>
+	<section class="hero">
+		<h1>全部文章</h1>
+		<p class="lede">按标题、摘要或标签筛选。每篇文章都对应 <code>posts/</code> 里的一份 Markdown。</p>
+		<label class="sr-only" for="post-search">搜索文章</label>
+		<input class="search" id="post-search" type="search" placeholder="搜索标题、摘要或标签" />
+	</section>
+	<PostList posts={posts} />
+</BaseLayout>
+
+<script>
+	const input = document.getElementById('post-search');
+	const cards = [...document.querySelectorAll<HTMLElement>('[data-search]')];
+
+	input?.addEventListener('input', () => {
+		const query = (input as HTMLInputElement).value.trim().toLowerCase();
+		for (const card of cards) {
+			const haystack = card.dataset.search?.toLowerCase() ?? '';
+			card.hidden = query !== '' && !haystack.includes(query);
+		}
+	});
+</script>
